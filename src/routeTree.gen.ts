@@ -15,6 +15,8 @@ import { Route as AboutImport } from './routes/about'
 import { Route as IndexImport } from './routes/index'
 import { Route as PostsIndexImport } from './routes/posts/index'
 import { Route as PostsPostidImport } from './routes/posts/$postid'
+import { Route as AuthRegisterImport } from './routes/auth/register'
+import { Route as AuthLoginImport } from './routes/auth/login'
 
 // Create/Update Routes
 
@@ -42,6 +44,18 @@ const PostsPostidRoute = PostsPostidImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const AuthRegisterRoute = AuthRegisterImport.update({
+  id: '/auth/register',
+  path: '/auth/register',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthLoginRoute = AuthLoginImport.update({
+  id: '/auth/login',
+  path: '/auth/login',
+  getParentRoute: () => rootRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -58,6 +72,20 @@ declare module '@tanstack/react-router' {
       path: '/about'
       fullPath: '/about'
       preLoaderRoute: typeof AboutImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/login': {
+      id: '/auth/login'
+      path: '/auth/login'
+      fullPath: '/auth/login'
+      preLoaderRoute: typeof AuthLoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/auth/register': {
+      id: '/auth/register'
+      path: '/auth/register'
+      fullPath: '/auth/register'
+      preLoaderRoute: typeof AuthRegisterImport
       parentRoute: typeof rootRoute
     }
     '/posts/$postid': {
@@ -82,6 +110,8 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
   '/posts/$postid': typeof PostsPostidRoute
   '/posts': typeof PostsIndexRoute
 }
@@ -89,6 +119,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
   '/posts/$postid': typeof PostsPostidRoute
   '/posts': typeof PostsIndexRoute
 }
@@ -97,22 +129,45 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/auth/login': typeof AuthLoginRoute
+  '/auth/register': typeof AuthRegisterRoute
   '/posts/$postid': typeof PostsPostidRoute
   '/posts/': typeof PostsIndexRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/posts/$postid' | '/posts'
+  fullPaths:
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/register'
+    | '/posts/$postid'
+    | '/posts'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/posts/$postid' | '/posts'
-  id: '__root__' | '/' | '/about' | '/posts/$postid' | '/posts/'
+  to:
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/register'
+    | '/posts/$postid'
+    | '/posts'
+  id:
+    | '__root__'
+    | '/'
+    | '/about'
+    | '/auth/login'
+    | '/auth/register'
+    | '/posts/$postid'
+    | '/posts/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AboutRoute: typeof AboutRoute
+  AuthLoginRoute: typeof AuthLoginRoute
+  AuthRegisterRoute: typeof AuthRegisterRoute
   PostsPostidRoute: typeof PostsPostidRoute
   PostsIndexRoute: typeof PostsIndexRoute
 }
@@ -120,6 +175,8 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AboutRoute: AboutRoute,
+  AuthLoginRoute: AuthLoginRoute,
+  AuthRegisterRoute: AuthRegisterRoute,
   PostsPostidRoute: PostsPostidRoute,
   PostsIndexRoute: PostsIndexRoute,
 }
@@ -136,6 +193,8 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/about",
+        "/auth/login",
+        "/auth/register",
         "/posts/$postid",
         "/posts/"
       ]
@@ -145,6 +204,12 @@ export const routeTree = rootRoute
     },
     "/about": {
       "filePath": "about.tsx"
+    },
+    "/auth/login": {
+      "filePath": "auth/login.tsx"
+    },
+    "/auth/register": {
+      "filePath": "auth/register.tsx"
     },
     "/posts/$postid": {
       "filePath": "posts/$postid.tsx"
