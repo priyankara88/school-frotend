@@ -6,7 +6,7 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
-  const { data } = useQuery({
+  const { data, isPending } = useQuery({
     queryKey: ["id"],
     queryFn: () => getFetchData(),
   });
